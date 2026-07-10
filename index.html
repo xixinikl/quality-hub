@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quality Hub</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Multi-Project Control Room</p>
+        <h1>Quality Hub</h1>
+      </div>
+      <div id="updatedAt" class="updated">Loading</div>
+    </header>
+
+    <main>
+      <section class="kpis" aria-label="quality summary">
+        <article class="kpi">
+          <span>Projects</span>
+          <strong id="projectCount">-</strong>
+        </article>
+        <article class="kpi">
+          <span>Pass</span>
+          <strong id="passCount">-</strong>
+        </article>
+        <article class="kpi">
+          <span>Conditional</span>
+          <strong id="conditionalCount">-</strong>
+        </article>
+        <article class="kpi">
+          <span>Fail</span>
+          <strong id="failCount">-</strong>
+        </article>
+      </section>
+
+      <section class="surface">
+        <div class="head">
+          <div>
+            <p class="eyebrow">Today</p>
+            <h2>Project Status</h2>
+          </div>
+          <button id="refresh" type="button">Refresh</button>
+        </div>
+        <div id="projectList" class="project-list"></div>
+      </section>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>
