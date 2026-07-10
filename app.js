@@ -55,6 +55,8 @@ function projectRow(item) {
     <div class="links">
       <a href="${project.dashboardUrl}">Dashboard</a>
       <a href="${latest.source.runUrl || `https://github.com/${project.repository}/actions`}">Run</a>
+      ${project.updateLedgerUrl ? `<a href="${project.updateLedgerUrl}">Updates</a>` : ""}
+      ${project.weeklyReviewUrl ? `<a href="${project.weeklyReviewUrl}">Weekly</a>` : ""}
       <a href="https://github.com/${project.repository}">Repo</a>
     </div>
   </article>`;
