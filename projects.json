@@ -3,6 +3,8 @@
     "projectId": "gongtu-project",
     "projectName": "公途",
     "dashboardUrl": "https://xixinikl.github.io/gongtu-project/",
-    "repository": "xixinikl/gongtu-project"
+    "repository": "xixinikl/gongtu-project",
+    "updateLedgerUrl": "https://github.com/xixinikl/gongtu-project/actions/workflows/xds-daily-updates.yml",
+    "weeklyReviewUrl": "https://github.com/xixinikl/gongtu-project/actions/workflows/xds-weekly-review.yml"
   }
 ]
