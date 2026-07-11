@@ -134,6 +134,7 @@ function renderAttention(results) {
   const title = document.getElementById("attentionTitle");
   const summary = document.getElementById("attentionSummary");
   const action = document.getElementById("attentionAction");
+  const countLabel = document.getElementById("attentionCount");
   const urgent = results.filter((item) => ["fail", "unknown"].includes(statusFor(item)));
   const review = results.filter((item) => statusFor(item) === "conditional");
   const needsAttention = [...urgent, ...review];
@@ -143,6 +144,7 @@ function renderAttention(results) {
   action.innerHTML = "";
 
   if (!results.length) {
+    countLabel.textContent = "00";
     attention.classList.add("neutral");
     title.textContent = "还没有接入项目";
     summary.textContent = "接入第一个项目后，这里会告诉你最重要的下一步。";
@@ -150,6 +152,7 @@ function renderAttention(results) {
   }
 
   if (!needsAttention.length) {
+    countLabel.textContent = "OK";
     attention.classList.add("all-good");
     title.textContent = "本周无需你处理";
     summary.textContent = `已接入的 ${results.length} 个项目运行正常。你可以专注于下一项产品工作。`;
@@ -158,6 +161,7 @@ function renderAttention(results) {
 
   const first = needsAttention[0];
   const count = needsAttention.length;
+  countLabel.textContent = String(count).padStart(2, "0");
   attention.classList.add(urgent.length ? "has-danger" : "has-attention");
   title.textContent = `有 ${count} 个项目需要你看一下`;
   summary.textContent = `${first.project.projectName || first.project.projectId}：${describeNextStep(first)}`;

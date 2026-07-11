@@ -9,7 +9,7 @@ const contents = Object.fromEntries(
 JSON.parse(contents["projects.json"]);
 new vm.Script(contents["app.js"], { filename: "app.js" });
 
-const requiredHtml = ["attentionTitle", "projectList", "growthContent", "refresh"];
+const requiredHtml = ["attentionTitle", "attentionCount", "projectList", "growthContent", "refresh"];
 for (const id of requiredHtml) {
   if (!contents["index.html"].includes(`id="${id}"`)) {
     throw new Error(`index.html 缺少 #${id}`);
