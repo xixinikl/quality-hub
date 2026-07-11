@@ -1,37 +1,32 @@
-# Quality Hub
+# 我的项目看板
 
-Personal multi-project quality dashboard for xixinikl projects.
+这是 Xixi Dev System 的用户入口，用一句人话回答三个问题：
 
-`quality-hub` is the multi-project control room. It does not run tests and it
-does not need access to business source code. It reads each project's published
-dashboard JSON:
+1. 现在有没有事情需要我处理？
+2. 每个项目唯一的下一步是什么？
+3. 系统这周学会了什么？
+
+看板只聚合各项目公开的报告数据，不运行项目代码，也不读取业务仓库内容。不同产品保留各自的视觉设计；这里统一的是状态、下一步和周报表达。
+
+## 本地预览
+
+```bash
+python3 -m http.server 8000
+```
+
+打开 <http://127.0.0.1:8000>。
+
+## 验证
+
+```bash
+node scripts/verify.mjs
+```
+
+## 接入项目
+
+在 `projects.json` 中登记项目名称、报告地址和仓库地址。项目至少需要发布：
 
 - `data/latest.json`
 - `data/index.json`
 
-## Setup
-
-This repository is deployed with GitHub Pages:
-
-https://xixinikl.github.io/quality-hub/
-
-## Project Registry
-
-`projects.json` is the only project registry. Each project needs:
-
-- `projectId`: stable machine id
-- `projectName`: display name
-- `dashboardUrl`: per-project dashboard URL
-- `repository`: GitHub `owner/repo`
-
-Each project keeps its own daily acceptance workflow. The hub only aggregates.
-
-## Add A Project
-
-1. Add a per-project `quality-dashboard`.
-2. Confirm `<dashboardUrl>/data/latest.json` is reachable over HTTPS.
-3. Add the project entry to `projects.json`.
-4. Push to `main`; GitHub Pages serves the updated hub.
-
-The hub is laptop-independent: personal and company computers only push code.
-Daily acceptance reports are read from GitHub Pages.
+如果项目进一步提供 `weeklySummaryUrl`，看板会展示其中的 `learnings`。
