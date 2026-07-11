@@ -7,7 +7,7 @@ const STATUS = {
   conditional: {
     label: "需要确认",
     tone: "attention",
-    action: "查看需要确认的内容",
+    action: "查看确认项",
   },
   fail: {
     label: "需要处理",
@@ -68,7 +68,7 @@ function describeNextStep(item) {
   if (status === "fail") return latest.verdict.reason || "查看失败原因并决定修复方式。";
   if (status === "conditional") {
     if (latest.checks?.failed === 0 && latest.risk?.highRiskFiles?.length) {
-      return "自动检查已通过，请确认本次高风险范围是否符合预期。";
+      return "自动检查已通过，请确认这次系统配置调整是否符合预期。";
     }
     return latest.verdict.reason || "查看需要人工确认的内容。";
   }
@@ -109,7 +109,7 @@ function projectCard(item) {
   const latest = item.latest;
   const date = item.ok ? formatDate(latest.date) : "连接异常";
   const activity = item.ok
-    ? `${latest.scope?.commitCount || 0} 个提交，${latest.scope?.changedFileCount || 0} 个文件有变化`
+    ? `本周有 ${latest.scope?.commitCount || 0} 次更新，涉及 ${latest.scope?.changedFileCount || 0} 个文件`
     : "没有读取到最新项目报告";
   const detailUrl = project.dashboardUrl || repositoryUrl(project);
 
@@ -166,14 +166,14 @@ function renderAttention(results) {
   title.textContent = `有 ${count} 个项目需要你看一下`;
   summary.textContent = `${first.project.projectName || first.project.projectId}：${describeNextStep(first)}`;
   action.hidden = false;
-  action.innerHTML = `<a class="hero-button" href="${escapeHtml(primaryUrl(first))}">现在处理<span aria-hidden="true">→</span></a>`;
+  action.innerHTML = `<a class="hero-button" href="${escapeHtml(primaryUrl(first))}">${STATUS[statusFor(first)].action}<span aria-hidden="true">→</span></a>`;
 }
 
 function renderGrowth(results) {
   const container = document.getElementById("growthContent");
   const weeklyItems = results.flatMap((item) => item.weekly?.learnings || []);
   if (weeklyItems.length) {
-    container.innerHTML = `<div class="growth-icon" aria-hidden="true">✦</div><div><h3>本周已沉淀 ${weeklyItems.length} 条经验</h3><ul>${weeklyItems
+    container.innerHTML = `<div class="growth-icon" aria-hidden="true"></div><div><h3>本周已沉淀 ${weeklyItems.length} 条经验</h3><ul>${weeklyItems
       .slice(0, 4)
       .map((item) => `<li>${escapeHtml(item.title || item)}</li>`)
       .join("")}</ul></div>`;
@@ -181,7 +181,7 @@ function renderGrowth(results) {
   }
 
   const changedProjects = results.filter((item) => item.ok && item.latest?.scope?.commitCount > 0).length;
-  container.innerHTML = `<div class="growth-icon" aria-hidden="true">✦</div><div><h3>等待周一自动回顾</h3><p>${
+  container.innerHTML = `<div class="growth-icon" aria-hidden="true"></div><div><h3>等待周一自动回顾</h3><p>${
     changedProjects
       ? `本周已有 ${changedProjects} 个项目产生新变化。系统会筛选有证据、可复用的经验后再展示，避免把偶发问题写成规则。`
       : "本周暂时没有新的项目变化。"

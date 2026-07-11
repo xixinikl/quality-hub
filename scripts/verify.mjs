@@ -16,7 +16,15 @@ for (const id of requiredHtml) {
   }
 }
 
-const forbiddenCopy = ["Conditional", "Project Status", "Multi-Project Control Room"];
+const forbiddenCopy = [
+  "Conditional",
+  "Project Status",
+  "Multi-Project Control Room",
+  "NOW",
+  "WEEKLY LOG",
+  "SYSTEM / WEEKLY STATUS",
+  "开发指挥台",
+];
 for (const text of forbiddenCopy) {
   if (contents["index.html"].includes(text)) {
     throw new Error(`页面仍包含旧机器术语：${text}`);
