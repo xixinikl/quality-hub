@@ -1,51 +1,68 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Quality Hub</title>
+    <meta name="description" content="Xixi 的项目状态、待办与每周成长总览。" />
+    <title>我的项目</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <header class="hero">
-      <div>
-        <p class="eyebrow">Multi-Project Control Room</p>
-        <h1>Quality Hub</h1>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="回到项目总览">
+        <span class="brand-mark" aria-hidden="true">X</span>
+        <span>我的项目</span>
+      </a>
+      <div class="topbar-actions">
+        <span id="updatedAt" class="updated" aria-live="polite">正在更新</span>
+        <button id="refresh" class="icon-button" type="button" aria-label="刷新项目状态">
+          <span aria-hidden="true">↻</span>
+        </button>
       </div>
-      <div id="updatedAt" class="updated">Loading</div>
     </header>
 
     <main>
-      <section class="kpis" aria-label="quality summary">
-        <article class="kpi">
-          <span>Projects</span>
-          <strong id="projectCount">-</strong>
-        </article>
-        <article class="kpi">
-          <span>Pass</span>
-          <strong id="passCount">-</strong>
-        </article>
-        <article class="kpi">
-          <span>Conditional</span>
-          <strong id="conditionalCount">-</strong>
-        </article>
-        <article class="kpi">
-          <span>Fail</span>
-          <strong id="failCount">-</strong>
-        </article>
+      <section id="attention" class="attention loading" aria-labelledby="attentionTitle">
+        <div class="attention-copy">
+          <p class="section-kicker">现在最重要的事</p>
+          <h1 id="attentionTitle">正在查看所有项目</h1>
+          <p id="attentionSummary" class="attention-summary">马上告诉你是否有事情需要处理。</p>
+        </div>
+        <div id="attentionAction" class="attention-action" hidden></div>
       </section>
 
-      <section class="surface">
-        <div class="head">
+      <section class="section" aria-labelledby="projectsTitle">
+        <div class="section-heading">
           <div>
-            <p class="eyebrow">Today</p>
-            <h2>Project Status</h2>
+            <p class="section-kicker">项目</p>
+            <h2 id="projectsTitle">每个项目，只有一个下一步</h2>
           </div>
-          <button id="refresh" type="button">Refresh</button>
+          <p id="projectSummary" class="section-note">正在读取项目状态</p>
         </div>
-        <div id="projectList" class="project-list"></div>
+        <div id="projectList" class="project-list" aria-live="polite"></div>
+      </section>
+
+      <section class="section growth-section" aria-labelledby="growthTitle">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">每周成长</p>
+            <h2 id="growthTitle">系统这周学会了什么</h2>
+          </div>
+        </div>
+        <div id="growthContent" class="growth-card">
+          <div class="growth-icon" aria-hidden="true">✦</div>
+          <div>
+            <h3>等待本周回顾</h3>
+            <p>周一回顾完成后，这里会保留值得跨项目复用的经验。</p>
+          </div>
+        </div>
       </section>
     </main>
+
+    <footer>
+      <p>由 Xixi Dev System 汇总。每个产品保留自己的设计与个性。</p>
+    </footer>
+
     <script src="./app.js"></script>
   </body>
 </html>
