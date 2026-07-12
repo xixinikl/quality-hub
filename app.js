@@ -65,7 +65,7 @@ function describeNextStep(item) {
   if (!item.ok) return "确认项目报告是否仍在正常发布。";
   const latest = item.latest;
   const status = latest?.verdict?.status;
-  if (status === "fail") return latest.verdict.reason || "查看失败原因并决定修复方式。";
+  if (status === "fail") return latest.nextAction || latest.verdict.reason || "查看失败原因并决定修复方式。";
   if (status === "conditional") {
     if (latest.checks?.failed === 0 && latest.risk?.highRiskFiles?.length) {
       return "自动检查已通过，请确认这次系统配置调整是否符合预期。";
@@ -77,7 +77,7 @@ function describeNextStep(item) {
 }
 
 async function loadProject(project) {
-  const base = normalizeBase(project.dashboardUrl);
+  const base = normalizeBase(project.reportBaseUrl || project.dashboardUrl);
   try {
     const [latest, index] = await Promise.all([
       readJson(`${base}data/latest.json`),
@@ -109,7 +109,9 @@ function projectCard(item) {
   const latest = item.latest;
   const date = item.ok ? formatDate(latest.date) : "连接异常";
   const activity = item.ok
-    ? `本周有 ${latest.scope?.commitCount || 0} 次更新，涉及 ${latest.scope?.changedFileCount || 0} 个文件`
+    ? latest.checks
+      ? `${latest.checks.total} 项检查，${latest.checks.passed} 项通过`
+      : "已读取最新项目结论"
     : "没有读取到最新项目报告";
   const detailUrl = project.dashboardUrl || repositoryUrl(project);
 
