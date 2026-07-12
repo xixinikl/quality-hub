@@ -6,5 +6,19 @@
     "repository": "xixinikl/gongtu-project",
     "updateLedgerUrl": "https://github.com/xixinikl/gongtu-project/actions/workflows/xds-daily-updates.yml",
     "weeklyReviewUrl": "https://github.com/xixinikl/gongtu-project/actions/workflows/xds-weekly-review.yml"
+  },
+  {
+    "projectId": "code-quest",
+    "projectName": "码上冒险",
+    "dashboardUrl": "https://github.com/xixinikl/code-quest",
+    "reportBaseUrl": "https://raw.githubusercontent.com/xixinikl/code-quest/feat/guided-learning-bridge/quality/",
+    "repository": "xixinikl/code-quest"
+  },
+  {
+    "projectId": "canvas-storm",
+    "projectName": "Canvas Storm",
+    "dashboardUrl": "https://github.com/xixinikl/canvas-storm",
+    "reportBaseUrl": "https://raw.githubusercontent.com/xixinikl/canvas-storm/main/quality/",
+    "repository": "xixinikl/canvas-storm"
   }
 ]

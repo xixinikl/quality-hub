@@ -6,7 +6,22 @@ const contents = Object.fromEntries(
   await Promise.all(requiredFiles.map(async (file) => [file, await readFile(file, "utf8")])),
 );
 
-JSON.parse(contents["projects.json"]);
+const projects = JSON.parse(contents["projects.json"]);
+const expectedProjects = ["gongtu-project", "code-quest", "canvas-storm"];
+if (projects.length !== expectedProjects.length) {
+  throw new Error("projects.json 必须且只能登记三个当前活跃项目");
+}
+for (const projectId of expectedProjects) {
+  const project = projects.find((item) => item.projectId === projectId);
+  if (!project?.repository || !project?.dashboardUrl) {
+    throw new Error(`${projectId} 缺少仓库或用户入口`);
+  }
+}
+for (const project of projects.filter((item) => item.projectId !== "gongtu-project")) {
+  if (!project.reportBaseUrl?.includes("raw.githubusercontent.com")) {
+    throw new Error(`${project.projectId} 缺少公开质量报告地址`);
+  }
+}
 const weekly = JSON.parse(contents["weekly/latest.json"]);
 if (weekly.schemaVersion !== 1 || !Array.isArray(weekly.learnings)) {
   throw new Error("weekly/latest.json 不符合周报数据契约");
