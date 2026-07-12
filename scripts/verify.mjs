@@ -1,12 +1,16 @@
 import { readFile } from "node:fs/promises";
 import vm from "node:vm";
 
-const requiredFiles = ["index.html", "styles.css", "app.js", "projects.json"];
+const requiredFiles = ["index.html", "styles.css", "app.js", "projects.json", "weekly/latest.json"];
 const contents = Object.fromEntries(
   await Promise.all(requiredFiles.map(async (file) => [file, await readFile(file, "utf8")])),
 );
 
 JSON.parse(contents["projects.json"]);
+const weekly = JSON.parse(contents["weekly/latest.json"]);
+if (weekly.schemaVersion !== 1 || !Array.isArray(weekly.learnings)) {
+  throw new Error("weekly/latest.json 不符合周报数据契约");
+}
 new vm.Script(contents["app.js"], { filename: "app.js" });
 
 const requiredHtml = ["attentionTitle", "attentionCount", "projectList", "growthContent", "refresh"];

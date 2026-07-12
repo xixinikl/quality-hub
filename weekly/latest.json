@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "date": null,
+  "generatedAt": null,
+  "status": "waiting",
+  "headline": "等待第一次自动周报",
+  "summary": "周一回顾完成后，这里会长期保存真正值得跨项目复用的经验。",
+  "learnings": [],
+  "completed": [],
+  "needsUser": [],
+  "next": null,
+  "sourceTask": "每周个人开发系统回顾"
+}
