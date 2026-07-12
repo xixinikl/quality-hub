@@ -169,14 +169,21 @@ function renderAttention(results) {
   action.innerHTML = `<a class="hero-button" href="${escapeHtml(primaryUrl(first))}">${STATUS[statusFor(first)].action}<span aria-hidden="true">→</span></a>`;
 }
 
-function renderGrowth(results) {
+function renderGrowth(results, weekly) {
   const container = document.getElementById("growthContent");
-  const weeklyItems = results.flatMap((item) => item.weekly?.learnings || []);
+  const weeklyItems = weekly?.learnings || results.flatMap((item) => item.weekly?.learnings || []);
   if (weeklyItems.length) {
-    container.innerHTML = `<div class="growth-icon" aria-hidden="true"></div><div><h3>本周已沉淀 ${weeklyItems.length} 条经验</h3><ul>${weeklyItems
+    const heading = weekly?.headline || `本周已沉淀 ${weeklyItems.length} 条经验`;
+    const summary = weekly?.summary ? `<p>${escapeHtml(weekly.summary)}</p>` : "";
+    container.innerHTML = `<div class="growth-icon" aria-hidden="true"></div><div><h3>${escapeHtml(heading)}</h3>${summary}<ul>${weeklyItems
       .slice(0, 4)
       .map((item) => `<li>${escapeHtml(item.title || item)}</li>`)
       .join("")}</ul></div>`;
+    return;
+  }
+
+  if (weekly?.status === "complete") {
+    container.innerHTML = `<div class="growth-icon" aria-hidden="true"></div><div><h3>${escapeHtml(weekly.headline || "本周没有需要沉淀的新经验")}</h3><p>${escapeHtml(weekly.summary || "系统完成了本周回顾，没有发现需要新增的跨项目规则。")}</p></div>`;
     return;
   }
 
@@ -194,10 +201,13 @@ async function boot() {
   document.getElementById("updatedAt").textContent = "正在更新";
 
   try {
-    const projects = await readJson("./projects.json");
+    const [projects, weekly] = await Promise.all([
+      readJson("./projects.json"),
+      readJson("./weekly/latest.json").catch(() => null),
+    ]);
     const results = await Promise.all(projects.map(loadProject));
     renderAttention(results);
-    renderGrowth(results);
+    renderGrowth(results, weekly);
     document.getElementById("projectList").innerHTML = results.map(projectCard).join("");
     const attentionCount = results.filter((item) => statusFor(item) !== "pass").length;
     document.getElementById("projectSummary").textContent = attentionCount

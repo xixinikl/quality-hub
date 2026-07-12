@@ -30,3 +30,5 @@ node scripts/verify.mjs
 - `data/index.json`
 
 如果项目进一步提供 `weeklySummaryUrl`，看板会展示其中的 `learnings`。
+
+统一的每周个人开发系统回顾保存在 `weekly/latest.json`，历史版本按日期保存在 `weekly/`。该数据由 Codex 周一自动任务通过独立 PR 更新。
